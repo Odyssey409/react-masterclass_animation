@@ -1,7 +1,5 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { start } from "repl";
-import { couldStartTrivia } from "typescript";
 
 const Wrapper = styled.div`
   height: 100vh;
