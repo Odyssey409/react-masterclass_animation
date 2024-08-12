@@ -1,15 +1,6 @@
 import styled from "styled-components";
-import {
-  AnimatePresence,
-  motion,
-  useMotionValue,
-  useScroll,
-  useTransform,
-} from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-import { start } from "repl";
-import { set } from "react-hook-form";
-import { transcode } from "buffer";
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 
 const Wrapper = styled(motion.div)`
   height: 100vh;
@@ -36,44 +27,49 @@ const Box = styled(motion.div)`
 `;
 
 const boxVariants = {
-  invisible: {
-    x: 500,
+  entry: (back: boolean) => ({
+    x: back ? -500 : 500,
     opacity: 0,
     scale: 0,
-  },
-  visible: {
+  }),
+  center: {
     x: 0,
     opacity: 1,
     scale: 1,
-    transition: { duration: 1 },
+    transition: { duration: 0.1 },
   },
-  exit: { x: -500, opacity: 0, scale: 0, transition: { duration: 1 } },
+  exit: (back: boolean) => ({
+    x: back ? 500 : -500,
+    opacity: 0,
+    scale: 0,
+    transition: { duration: 0.1 },
+  }),
 };
 
 function App() {
   const [visible, setVisible] = useState(1);
+  const [back, setBack] = useState(false);
   const nextPlease = () => {
+    setBack(false);
     setVisible((prev) => (prev === 10 ? 10 : prev + 1));
   };
   const prevPlease = () => {
+    setBack(true);
     setVisible((prev) => (prev === 1 ? 1 : prev - 1));
   };
   return (
     <Wrapper>
-      <AnimatePresence>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) =>
-          item === visible ? (
-            <Box
-              key={item}
-              variants={boxVariants}
-              initial="invisible"
-              animate="visible"
-              exit="exit"
-            >
-              {item}
-            </Box>
-          ) : null
-        )}
+      <AnimatePresence mode="wait" custom={back}>
+        <Box
+          key={visible}
+          custom={back}
+          variants={boxVariants}
+          initial="entry"
+          animate="center"
+          exit="exit"
+        >
+          {visible}
+        </Box>
       </AnimatePresence>
       <button onClick={nextPlease}>Next</button>
       <button onClick={prevPlease}>Prev</button>
