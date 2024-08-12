@@ -13,66 +13,34 @@ const Wrapper = styled(motion.div)`
 `;
 
 const Box = styled(motion.div)`
-  height: 200px;
+  height: 400px;
   width: 400px;
   background: rgba(255, 255, 255, 1);
   border-radius: 40px;
-  position: absolute;
-  top: 100px;
   box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1), 0px 10px 20px rgba(0, 0, 0, 0.1);
   display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 24px;
+`;
+const Circle = styled(motion.div)`
+  height: 100px;
+  width: 100px;
+  background: #00a5ff;
+  border-radius: 50%;
+  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1), 0px 10px 20px rgba(0, 0, 0, 0.1);
 `;
 
-const boxVariants = {
-  entry: (back: boolean) => ({
-    x: back ? -500 : 500,
-    opacity: 0,
-    scale: 0,
-  }),
-  center: {
-    x: 0,
-    opacity: 1,
-    scale: 1,
-    transition: { duration: 0.1 },
-  },
-  exit: (back: boolean) => ({
-    x: back ? 500 : -500,
-    opacity: 0,
-    scale: 0,
-    transition: { duration: 0.1 },
-  }),
-};
-
 function App() {
-  const [visible, setVisible] = useState(1);
-  const [back, setBack] = useState(false);
-  const nextPlease = () => {
-    setBack(false);
-    setVisible((prev) => (prev === 10 ? 10 : prev + 1));
-  };
-  const prevPlease = () => {
-    setBack(true);
-    setVisible((prev) => (prev === 1 ? 1 : prev - 1));
-  };
+  const [clicked, setClicked] = useState(false);
+  const toggleClicked = () => setClicked((prev) => !prev);
   return (
-    <Wrapper>
-      <AnimatePresence mode="wait" custom={back}>
-        <Box
-          key={visible}
-          custom={back}
-          variants={boxVariants}
-          initial="entry"
-          animate="center"
-          exit="exit"
-        >
-          {visible}
-        </Box>
-      </AnimatePresence>
-      <button onClick={nextPlease}>Next</button>
-      <button onClick={prevPlease}>Prev</button>
+    <Wrapper onClick={toggleClicked}>
+      <Box
+        style={{
+          justifyContent: clicked ? "center" : "flex-start",
+          alignItems: clicked ? "center" : "flex-start",
+        }}
+      >
+        <Circle layout></Circle>
+      </Box>
     </Wrapper>
   );
 }
