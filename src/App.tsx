@@ -6,10 +6,9 @@ const Wrapper = styled(motion.div)`
   height: 100vh;
   width: 100vw;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   background: linear-gradient(135deg, rgb(238, 0, 153), rgb(221, 0, 238));
-  flex-direction: column;
 `;
 
 const Box = styled(motion.div)`
@@ -19,12 +18,13 @@ const Box = styled(motion.div)`
   border-radius: 40px;
   box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1), 0px 10px 20px rgba(0, 0, 0, 0.1);
   display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 const Circle = styled(motion.div)`
   height: 100px;
   width: 100px;
   background: #00a5ff;
-  border-radius: 50%;
   box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1), 0px 10px 20px rgba(0, 0, 0, 0.1);
 `;
 
@@ -33,13 +33,18 @@ function App() {
   const toggleClicked = () => setClicked((prev) => !prev);
   return (
     <Wrapper onClick={toggleClicked}>
-      <Box
-        style={{
-          justifyContent: clicked ? "center" : "flex-start",
-          alignItems: clicked ? "center" : "flex-start",
-        }}
-      >
-        <Circle layout></Circle>
+      <Box>
+        {!clicked ? (
+          <Circle layoutId="circle" style={{ borderRadius: 50 }}></Circle>
+        ) : null}
+      </Box>
+      <Box>
+        {clicked ? (
+          <Circle
+            layoutId="circle"
+            style={{ borderRadius: 0, scale: 2 }}
+          ></Circle>
+        ) : null}
       </Box>
     </Wrapper>
   );
