@@ -33,4 +33,3 @@ jobs:
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-출처: https://knightk.tistory.com/379 [KnightK:티스토리]
